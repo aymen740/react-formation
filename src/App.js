@@ -1,51 +1,82 @@
+import { forwardRef } from "react";
 import {createPortal} from "react-dom";
 
 
-
-  
-
-
 function App() {
-return <div style={{
-  height: 300,
-  overflow: 'scroll',
-  background: ' #EEE',
-  margin: 20,
-  position: 'relative'
-}}>
-<p>
-  gfhhheb ghhhn lorzas fngnfff gnfffqv fhthzbqsqffdbd dhtgn
-  ddnn gnyy nnffngpogfzg rgzgzp iggpzg brigzgizgngbnrbzigzgznrg
-  gernienrig fignegenz rnbn bn bzngznilg bnzrg bnizzgnizpgzn z zrnibzr
-</p>
-<p>
-  gfhhheb ghhhn lorzas fngnfff gnfffqv fhthzbqsqffdbd dhtgn
-  ddnn gnyy nnffngpogfzg rgzgzp iggpzg brigzgizgngbnrbzigzgznrg
-  gernienrig fignegenz rnbn bn bzngznilg bnzrg bnizzgnizpgzn z zrnibzr
-</p>
-<p>
-  gfhhheb ghhhn lorzas fngnfff gnfffqv fhthzbqsqffdbd dhtgn
-  ddnn gnyy nnffngpogfzg rgzgzp iggpzg brigzgizgngbnrbzigzgznrg
-  gernienrig fignegenz rnbn bn bzngznilg bnzrg bnizzgnizpgzn z zrnibzr
-</p>
-<Modal />
+  const [open, toggle] = useToggle(true);
+  const items = open ? [1,2,3,4,5] : [3,2,5,1,4];
 
-
-
-</div>
-
- 
+  return (
+    <div className="container my-4 vstack gap-2">
+      <Motion.div
+      className="hstack gap-2"
+      animate={open ? "visible" : "hidden"}
+      variants={wrapperVariants}
+      >
+        {items.map((item) => (
+          <MotionBox layout key={item}>{item}</MotionBox>
+        ))}
+        
+      </Motion.div>
+      {open ? <Page1/> : <Page2/>}
+      <div>
+        <button onClick={toggle}>Afficher / Masquer</button>
+      </div>
+    </div>
+  );
 }
-function Modal () {
-  return createPortal(<div style={{
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 10,
-    border: 'solid 1px grey',
-    background: '#FFF'
-  }}>
-    je suis une modale 
-  </div>, document.body)
+
+const Box = forwardRef(({ children }, ref) => {
+  return (
+    <div className="box" ref={ref}>
+      {children}
+    </div>
+  );
+});
+
+const MotionBox = Motion(Box);
+
+function Page1() {
+  return (
+    <div>
+      <p>
+        lorem ipsum dolr sit amterf djdjsf ddoppalsde laalfghjd afmdbgkl elit ab vbgehu buedvbvburbuvvbuv vzrgzgyv  
+        acdqquitino dhdddjd odio sapiente unde velit dndsvnisvsvn dvsvdb sgrsbuv bfuvvbkufv fbudb gebz sdvsgiuzgb  s fvbv
+        vsinzvgni finvbndbnbi fnibdbnib fvbnibdfbndib fnbdnbfdsvfbb fnn vbdvvkfu fbukfvdvfg v bsdufd dubb sdbvuzbdvsz bgvbkjz 
+      </p>
+       <motion.img
+      layoutId="image"
+      src="https://picsum.photos/id/237/300/200"
+      width={300}
+      height={200}
+      alt=""
+      />
+       <p>
+        lorem ipsum dolr sit amterf djdjsf ddoppalsde laalfghjd afmdbgkl elit ab vbgehu buedvbvburbuvvbuv vzrgzgyv  
+        acdqquitino dhdddjd odio sapiente unde velit dndsvnisvsvn dvsvdb sgrsbuv bfuvvbkufv fbudb gebz sdvsgiuzgb  s fvbv
+        vsinzvgni finvbndbnbi fnibdbnib fvbnibdfbndib fnbdnbfdsvfbb fnn vbdvvkfu fbukfvdvfg v bsdufd dubb sdbvuzbdvsz bgvbkjz 
+      </p>
+
+    </div>
+  );
 }
- 
+
+function Page2() {
+  return (
+    <div>
+      <motion.img
+      layoutId="image"
+      src="https://picsum.photos/id/238/300/200"
+      width={300}
+      height={200}
+      alt=""
+      />
+      <p>
+          lorem ipsum dolr sit amterf djdjsf ddoppalsde laalfghjd afmdbgkl elit ab vbgehu buedvbvburbuvvbuv vzrgzgyv  
+        acdqquitino dhdddjd odio sapiente unde velit dndsvnisvsvn dvsvdb sgrsbuv bfuvvbkufv fbudb gebz sdvsgiuzgb  s fvbv
+        vsinzvgni finvbndbnbi fnibdbnib fvbnibdfbndib fnbdnbfdsvfbb fnn vbdvvkfu fbukfvdvfg v bsdufd dubb sdbvuzbdvsz bgvbkjz
+      </p>
+    </div>
+  )
+}
+
