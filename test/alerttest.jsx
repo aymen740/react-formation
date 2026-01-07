@@ -1,0 +1,26 @@
+import {describe, it, expect} from "vitest";
+import {render, screen} from "@testing-library/react";
+import {Alert} from "../src/components/alert.jsx";
+
+
+
+describe('<Alert>', () => {
+    it('should render correcly', () => {
+const {container} = render(<Alert type="danger">Erreur</Alert>)
+ expect(container.firstChild).toMatchInlineSnapshot(
+    <div
+    class="alert alert-danger"
+    role="alert"
+    >
+        Erreur
+        <button>
+            Fermer
+        </button>
+    </div>
+ )
+    })
+it('should close the alert on click', () => {
+  const {container} = render(<Alert type="danger">Erreur</Alert>)
+  
+})
+})

@@ -1,23 +1,44 @@
-import { forwardRef } from "react";
-import {createPortal} from "react-dom";
+
+import React from 'react';
+
+
+import { AnimatePresence, motion } from 'framer-motion';
+import { useToggle } from './hooks/useToggle.js'; 
+
+const boxVariants = {
+  visible: { x: 0, rotate: 0, opacity: 1 },
+  hidden: { x: 100, rotate: 45, opacity: 0 },
+};
+
+
 
 
 function App() {
+ 
+    
+
   const [open, toggle] = useToggle(true);
   const items = open ? [1,2,3,4,5] : [3,2,5,1,4];
 
   return (
     <div className="container my-4 vstack gap-2">
-      <Motion.div
-      className="hstack gap-2"
-      animate={open ? "visible" : "hidden"}
-      variants={wrapperVariants}
+      <AnimatePresence mode="popLayout">
+      {open && <motionBox
+    variants={boxVariants}
+    animate="visible"
+    initial="hidden"
+    exit="hidden"
+    >1</motionBox>}  
+    
+      </AnimatePresence>
+      <motion.div
+     
       >
         {items.map((item) => (
-          <MotionBox layout key={item}>{item}</MotionBox>
+          <motionBox layout key={item}>{item}</motionBox>
         ))}
         
-      </Motion.div>
+      </motion.div>
       {open ? <Page1/> : <Page2/>}
       <div>
         <button onClick={toggle}>Afficher / Masquer</button>
@@ -26,15 +47,9 @@ function App() {
   );
 }
 
-const Box = forwardRef(({ children }, ref) => {
-  return (
-    <div className="box" ref={ref}>
-      {children}
-    </div>
-  );
-});
 
-const MotionBox = Motion(Box);
+
+
 
 function Page1() {
   return (
@@ -80,3 +95,4 @@ function Page2() {
   )
 }
 
+export default App ()
