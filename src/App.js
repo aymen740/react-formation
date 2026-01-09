@@ -1,61 +1,28 @@
 
-import { useReducer, useState } from "react";
-
-
-function reducer (state, action) {
-if (action.type === 'remove_TODO') {
-  return {
-...state,
-todos: state.todos.filter(todo => todo !== action.payload)
-  }
-}
-if (action.type === 'TOOGLE_TODO') {
-  return {
-    ...state,
-    todos: state.todos.map(todo => todo === action.payload ? {
-      ...todo,
-      checked: !todo.checked
-    } : todo)
-
-  
-  }
-}
-return state
-}
-
-
-
+import { useState } from "react";
+import {input} from "./components/forms/input.jsx";
 
 function App() {
-  const [state, dispatch] = useReducer(reducer,{
-    todos: [{
-    name: 'faire  les courses',
-    checked: false
-    },{
-        name: 'ranger les courses',
-    checked: false
-    },{
-        name: 'manger les courses',
-    checked: false
-    
-    }]
-  })
-
-return <ul>
-  {state.todos.map(todo => (<li key={todo.name}
+  const [name, setname] = useState('')
+  console.log('App', 'render')
   
-  >
-    <input type="checkbox" onChange={() => dispatch({type: 'TOGGLE TODO',
-      payload: todo
-    })}
-    checked={todo.checked}/>
-    {todo.name}
-    <button onClick={() => dispatch({type: 'REMOVE_TODO', payload: todo})}
-    >supprimer</button>
-    </li>))}
-
-</ul>
-
+  return <div className="container my-2 vstack gap-2">
+    <div>
+      <Input label="prénom" onChange={setName} value={name}/>
+      <div>
+        {name.toUpperCase()}
+      </div>
+    </div>
+    <Info/>
+  </div>
 }
-  
+
+function Info () {
+  console.log('Info', 'render')
+ 
+  return <div className="alert alert-info">
+    lorem ipzezm dolor st amedffgt dsvvb fbdbdbddb
+    ddfb bdbdbdb bdbd bdhhtgbdb 
+  </div>
+}
 export default App 
