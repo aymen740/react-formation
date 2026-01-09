@@ -1,27 +1,61 @@
 
-import { useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { useReducer, useState } from "react";
+
+
+function reducer (state, action) {
+if (action.type === 'remove_TODO') {
+  return {
+...state,
+todos: state.todos.filter(todo => todo !== action.payload)
+  }
+}
+if (action.type === 'TOOGLE_TODO') {
+  return {
+    ...state,
+    todos: state.todos.map(todo => todo === action.payload ? {
+      ...todo,
+      checked: !todo.checked
+    } : todo)
+
+  
+  }
+}
+return state
+}
 
 
 
 
 function App() {
-
-  const [duration, setduration] = useState(5)
-  const [secondsleft, setsecondleft] = useState(duration)
-return <div className="vstack gap-2">
-<input 
-value={duration}
-onChange={setduration}
-placeholder="Timer..."
-/>
-<p>
-  décompte : 
-
-</p>
-</div>
-}
+  const [state, dispatch] = useReducer(reducer,{
+    todos: [{
+    name: 'faire  les courses',
+    checked: false
+    },{
+        name: 'ranger les courses',
+    checked: false
+    },{
+        name: 'manger les courses',
+    checked: false
     
+    }]
+  })
 
+return <ul>
+  {state.todos.map(todo => (<li key={todo.name}
+  
+  >
+    <input type="checkbox" onChange={() => dispatch({type: 'TOGGLE TODO',
+      payload: todo
+    })}
+    checked={todo.checked}/>
+    {todo.name}
+    <button onClick={() => dispatch({type: 'REMOVE_TODO', payload: todo})}
+    >supprimer</button>
+    </li>))}
+
+</ul>
+
+}
   
 export default App 
