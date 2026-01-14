@@ -1,27 +1,33 @@
-
-
+import { useRef, useEffect} from "react"
 import { useState } from "react";
 
+import { useTodos } from "./useTodo.js";
 
 function App() {
- const [person, setPerson] = useState({
-  firstName: 'john',
-  lastName: 'doe',
-  age: 18
- })
- const [count, setCount] = useState(0)
+const {visibleTodos,removeTodo, clearCompleted, toggleFilter, toggleTodo,showCompleted}  = useTodos()
+return <div>
+  <p>
+    <input type="checkbox" checked={showCompleted}
+    onChange= {toggleFilter}/>
+    Afficher les taches accomplies
+  </p>
+  <ul>
+    {visibleTodos.map(todo => (<li
+      key={todo.name}
+      >
+        <input type="checkbox" onChange={() => toggleTodo(todo)}
+      
+         
+          checked={todo.checked}/>
+          {todo.name}
+          <button onClick={() => removeTodo(todo)}>Supprimer</button>
+       </li>))}
 
- const incrementAge = () => {
-  setPerson({...person,age: person.age + 1})
- }
-
- const incrementCount = () => {
-  setCount(count + 1)
- }
- return <>
- <p>Age de {person.firstName} : {person.age}</p>
- <button onClick={incrementAge}>Gagner une annee</button>
- <button onClick={incrementCount}>Incrémenter {count}</button>
-</>
+  </ul>
+  <button onClick={clearCompleted}>
+    Supprimer les taches accomplies
+  </button>
+</div>
+  
 }
 export default App
