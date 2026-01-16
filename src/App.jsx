@@ -1,33 +1,72 @@
-import { useRef, useEffect} from "react"
-import { useState } from "react";
+import { createBrowserRouter, Link, NavLink, Outlet, RouterProvider, useNavigation, useRouteError } from "react-router-dom"
+import { single } from "./pages/single.jsx";
+import { Blog } from "./pages/Blog.jsx";
 
-import { useTodos } from "./useTodo.js";
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root/>,
+    errorElement: <PageError/>,
+    children: [
+      {
+        path: 'blog',
+        element: <div className="row">
+          <asside className="col-3">
+            <h2>Sidebar</h2>
+          </asside>
+        <main className="col-9">
+          <Outlet/>
+        </main> 
+        </div>,
+        children: [
+          {
+            path: '',
+        element: <Blog/>,
+      } ] },
+      {
+        path: 'id',
+        element: <single/>
+      }
+    ]
+  }
+]);
+
+
+
+function PageError() {
+  const error = useRouteError()
+  return <>
+  <h1>Une erreur est survenue</h1>
+ <p> 
+  {error?.error?.toString() ?? error?.toString()}
+  </p>
+  </>
+}
+function Root () {
+  const {state} = useNavigation()
+return <>
+<header>
+  <nav>
+    <NavLink to="/">Home</NavLink>
+        <NavLink to="/blog">Blog</NavLink>
+    <NavLink to="/contact">Contact</NavLink>
+  </nav>
+</header>
+<div className="container my-4">
+  {state === 'loading' && <Spinner />} 
+  <Outlet/>
+</div>
+</>
+}
 
 function App() {
-const {visibleTodos,removeTodo, clearCompleted, toggleFilter, toggleTodo,showCompleted}  = useTodos()
-return <div>
-  <p>
-    <input type="checkbox" checked={showCompleted}
-    onChange= {toggleFilter}/>
-    Afficher les taches accomplies
-  </p>
-  <ul>
-    {visibleTodos.map(todo => (<li
-      key={todo.name}
-      >
-        <input type="checkbox" onChange={() => toggleTodo(todo)}
-      
-         
-          checked={todo.checked}/>
-          {todo.name}
-          <button onClick={() => removeTodo(todo)}>Supprimer</button>
-       </li>))}
 
-  </ul>
-  <button onClick={clearCompleted}>
-    Supprimer les taches accomplies
-  </button>
-</div>
-  
 }
-export default App
+
+
+
+
+ 
+export default App()
+
