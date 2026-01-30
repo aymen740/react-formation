@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { renderHook, act } from '@testing-library/react';
+import useIncrement from '../src/hooks/useIncrement'; // adapte le chemin si nécessaire
 
-export function useIncrement ({base = 0,max = Infinity, min = -Infinity}) {
-    const [state, setState] = useState(base)
-    return {
-        count: state,
-       increment: () => setState(v => v < max ? v+1 :v),
-       decrement: () => setState(v => v > min ? v-1 :v)
+describe('useIncrement', () => {
+  it('should use the default value', () => {
+    const { result } = renderHook(() => useIncrement());
+    expect(result.current[0]).toBe(0); // valeur par défaut attendue
+  });
 
-    }
-}
+  it('should increment the value', () => {
+    const { result } = renderHook(() => useIncrement());
+    act(() => {
+      result.current[1](); // appelle la fonction d’incrémentation
+    });
+    expect(result.current[0]).toBe(1);
+  });
+});

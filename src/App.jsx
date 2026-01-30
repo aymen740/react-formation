@@ -1,72 +1,25 @@
-import { createBrowserRouter, Link, NavLink, Outlet, RouterProvider, useNavigation, useRouteError } from "react-router-dom"
-import { single } from "./pages/single.jsx";
-import { Blog } from "./pages/Blog.jsx";
+
+import { Box, Container, SimpleGrid } from '@chakra-ui/react';
+import Header from './components/Header';
+import ProductCard from './components/ProductCard';
+import Footer from './components/Footer';
+import products from './data/products';
 
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root/>,
-    errorElement: <PageError/>,
-    children: [
-      {
-        path: 'blog',
-        element: <div className="row">
-          <asside className="col-3">
-            <h2>Sidebar</h2>
-          </asside>
-        <main className="col-9">
-          <Outlet/>
-        </main> 
-        </div>,
-        children: [
-          {
-            path: '',
-        element: <Blog/>,
-      } ] },
-      {
-        path: 'id',
-        element: <single/>
-      }
-    ]
-  }
-]);
-
-
-
-function PageError() {
-  const error = useRouteError()
-  return <>
-  <h1>Une erreur est survenue</h1>
- <p> 
-  {error?.error?.toString() ?? error?.toString()}
-  </p>
-  </>
-}
-function Root () {
-  const {state} = useNavigation()
-return <>
-<header>
-  <nav>
-    <NavLink to="/">Home</NavLink>
-        <NavLink to="/blog">Blog</NavLink>
-    <NavLink to="/contact">Contact</NavLink>
-  </nav>
-</header>
-<div className="container my-4">
-  {state === 'loading' && <Spinner />} 
-  <Outlet/>
-</div>
-</>
-}
 
 function App() {
-
+  return (
+    <Box bg="gray.50">
+      <Header />
+      <Container maxW="6xl" py={10}>
+        <SimpleGrid columns={[1, 2, 3]} spacing={8}>
+          {products.map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} />
+          ))}
+        </SimpleGrid>
+      </Container>
+      <Footer />
+    </Box>
+  );
 }
-
-
-
-
- 
-export default App()
-
+export default App 
