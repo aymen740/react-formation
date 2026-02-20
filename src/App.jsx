@@ -1,25 +1,23 @@
 
-import { Box, Container, SimpleGrid } from '@chakra-ui/react';
-import Header from './components/Header';
-import ProductCard from './components/ProductCard';
-import Footer from './components/Footer';
-import products from './data/products';
+import React, { useState } from "react";
+import { Router } from "react-router-dom";
+import {Home} from "./Home.jsx";
+import { dashboard } from "./Dashboard.jsx";
 
 
 
-function App() {
-  return (
-    <Box bg="gray.50">
-      <Header />
-      <Container maxW="6xl" py={10}>
-        <SimpleGrid columns={[1, 2, 3]} spacing={8}>
-          {products.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
-          ))}
-        </SimpleGrid>
-      </Container>
-      <Footer />
-    </Box>
-  );
+export function App() {
+return (
+  <Router>
+    <Home path="/" />
+    <Dash path="dashboard" />
+  </Router>
+)
+
+
+
+
 }
-export default App 
+
+export default App; 
+
