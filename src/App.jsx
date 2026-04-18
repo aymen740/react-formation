@@ -7,13 +7,11 @@ import { dashboard } from "./Dashboard.jsx";
 
 
 export function App() {
-return (
-  <Router>
-    <Home path="/" />
-    <Dash path="dashboard" />
-  </Router>
-)
 
+return ( 
+    <h1></h1>
+ 
+)
 
 
 
